@@ -1,10 +1,11 @@
-/Viper/.settings
+*.settings
 /Viper/Drivers
 /Viper/Debug
 /Viper/startup
-/Viper/cproject
-/Viper/.mxproject
+*.cproject
+*.mxproject
 /Viper/.project
-/Viper/STM32F407VGTx_FLASH.ld
+*.ld
 /Viper/syscalls.c
-/Viper/Viper.xml
+*.xml
+*.cfg
