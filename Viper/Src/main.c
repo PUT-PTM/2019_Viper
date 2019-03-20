@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "lis3dsh.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -33,7 +33,18 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define CE		GPIOE_PIN_10
+#define RST		GPIOE_PIN_11
+#define DC 		GPIOE_PIN_12
 
+#define GREEN_DIOD_ON 		HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_12,1);
+#define ORANGE_DIOD_ON	 	HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_13,1);
+#define RED_DIOD_ON			HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_14,1);
+#define BLUE_DIOD_ON		HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_15,1);
+#define GREEN_DIOD_OFF		HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_12,0);
+#define ORANGE_DIOD_OFF	 	HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_13,0);
+#define RED_DIOD_OFF		HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_14,0);
+#define BLUE_DIOD_OFF		HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_15,0);
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
