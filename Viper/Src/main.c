@@ -24,6 +24,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "lis3dsh.h"
+#include "logo.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -33,18 +34,33 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+<<<<<<< HEAD
+#define CE		GPIO_PIN_13
+#define RST		GPIO_PIN_15 //reset - przy starcie stan 0 przez 100ns, potem 1 przy pracy
+#define DC 		GPIO_PIN_14 // 1 - przesylanie danych, 0 - komendy dla wyswietlacza
+
+#define GREEN_DIOD_ON 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12,1)
+#define ORANGE_DIOD_ON	 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13,1)
+#define RED_DIOD_ON			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14,1)
+#define BLUE_DIOD_ON		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15,1)
+#define GREEN_DIOD_OFF		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12,0)
+#define ORANGE_DIOD_OFF	 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13,0)
+#define RED_DIOD_OFF		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14,0)
+#define BLUE_DIOD_OFF		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15,0)
+=======
 #define CE		GPIOE_PIN_10
 #define RST		GPIOE_PIN_11
 #define DC 		GPIOE_PIN_12
 
-#define GREEN_DIOD_ON 		HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_12,1);
-#define ORANGE_DIOD_ON	 	HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_13,1);
-#define RED_DIOD_ON			HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_14,1);
-#define BLUE_DIOD_ON		HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_15,1);
-#define GREEN_DIOD_OFF		HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_12,0);
-#define ORANGE_DIOD_OFF	 	HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_13,0);
-#define RED_DIOD_OFF		HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_14,0);
-#define BLUE_DIOD_OFF		HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_15,0);
+#define GREEN_DIODE_ON 		HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_12,1);
+#define ORANGE_DIODE_ON	 	HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_13,1);
+#define RED_DIODE_ON			HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_14,1);
+#define BLUE_DIODE_ON		HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_15,1);
+#define GREEN_DIODE_OFF		HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_12,0);
+#define ORANGE_DIODE_OFF	 	HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_13,0);
+#define RED_DIODE_OFF		HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_14,0);
+#define BLUE_DIODE_OFF		HAL_GPIO_WritePin(GPIOD, GPIOD_PIN_15,0);
+>>>>>>> a3a27f763a114bfc238740316309c130f7d1b960
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -67,6 +83,45 @@ static void MX_SPI1_Init(void);
 static void MX_SPI2_Init(void);
 /* USER CODE BEGIN PFP */
 
+uint8_t spi_sendrecv(uint8_t byte)
+{
+ uint8_t answer;
+
+ HAL_SPI_TransmitReceive(&hspi2, &byte, &answer, 1, HAL_MAX_DELAY);
+
+ return answer;
+}
+
+void lcd_reset(){
+	HAL_GPIO_WritePin(RST_GPIO_Port,RST_Pin,0);
+	HAL_GPIO_WritePin(RST_GPIO_Port,RST_Pin,1);
+}
+
+void lcd_command(uint8_t cmd){
+	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin,0);
+	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin|CE_Pin,0);
+	spi_sendrecv(cmd);
+	BLUE_DIOD_ON;
+	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin|CE_Pin,1);
+}
+
+void lcd_data(const uint8_t* data, int size){
+	int i;
+	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin,1);
+	HAL_GPIO_WritePin(DC_GPIO_Port,CE_Pin,0);
+	for (i = 0; i < size; i++);
+	for(i=0;i<size;i++){
+		GREEN_DIOD_ON;
+		spi_sendrecv(data[i]);
+
+	}
+
+	GREEN_DIOD_OFF;
+	ORANGE_DIOD_ON;
+	HAL_GPIO_WritePin(DC_GPIO_Port,CE_Pin,1);
+}
+
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -81,6 +136,7 @@ static void MX_SPI2_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+
 
   /* USER CODE END 1 */
 
@@ -106,6 +162,20 @@ int main(void)
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 
+  	lcd_reset();
+  	RED_DIOD_ON;
+  	lcd_command(0x21);
+  	lcd_command(0x14);
+  	lcd_command(0x80 | 0x3f); //Ustawienie kontrastu
+  	lcd_command(0x20);
+  	lcd_command(0x0c);
+  	ORANGE_DIOD_ON;
+
+  	lcd_data(v_viper, sizeof(v_viper));
+  	GREEN_DIOD_ON;
+  	ORANGE_DIOD_OFF;
+  	RED_DIOD_OFF;
+  	BLUE_DIOD_OFF;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -247,25 +317,24 @@ static void MX_GPIO_Init(void)
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, CE_Pin|RST_Pin|DC_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, CE_Pin|DC_Pin|RST_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, Green_Diod_Pin|Orange_Diod_Pin|Red_Diod_Pin|Blue_Diod_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : CE_Pin RST_Pin DC_Pin */
-  GPIO_InitStruct.Pin = CE_Pin|RST_Pin|DC_Pin;
+  /*Configure GPIO pins : CE_Pin DC_Pin RST_Pin */
+  GPIO_InitStruct.Pin = CE_Pin|DC_Pin|RST_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : Green_Diod_Pin Orange_Diod_Pin Red_Diod_Pin Blue_Diod_Pin */
   GPIO_InitStruct.Pin = Green_Diod_Pin|Orange_Diod_Pin|Red_Diod_Pin|Blue_Diod_Pin;

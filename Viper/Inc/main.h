@@ -58,12 +58,12 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define CE_Pin GPIO_PIN_10
-#define CE_GPIO_Port GPIOE
-#define RST_Pin GPIO_PIN_11
-#define RST_GPIO_Port GPIOE
-#define DC_Pin GPIO_PIN_12
-#define DC_GPIO_Port GPIOE
+#define CE_Pin GPIO_PIN_13
+#define CE_GPIO_Port GPIOC
+#define DC_Pin GPIO_PIN_14
+#define DC_GPIO_Port GPIOC
+#define RST_Pin GPIO_PIN_15
+#define RST_GPIO_Port GPIOC
 #define Green_Diod_Pin GPIO_PIN_12
 #define Green_Diod_GPIO_Port GPIOD
 #define Orange_Diod_Pin GPIO_PIN_13
