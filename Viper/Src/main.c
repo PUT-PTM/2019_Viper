@@ -88,7 +88,7 @@ void lcd_command(uint8_t cmd){
 	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin,0);
 	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin|CE_Pin,0);
 	spi_sendrecv(cmd);
-	BLUE_DIOD_ON;
+	BLUE_DIODE_ON;
 	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin|CE_Pin,1);
 }
 
@@ -98,13 +98,13 @@ void lcd_data(const uint8_t* data, int size){
 	HAL_GPIO_WritePin(DC_GPIO_Port,CE_Pin,0);
 	for (i = 0; i < size; i++);
 	for(i=0;i<size;i++){
-		GREEN_DIOD_ON;
+		GREEN_DIODE_ON;
 		spi_sendrecv(data[i]);
 
 	}
 
-	GREEN_DIOD_OFF;
-	ORANGE_DIOD_ON;
+	GREEN_DIODE_OFF;
+	ORANGE_DIODE_ON;
 	HAL_GPIO_WritePin(DC_GPIO_Port,CE_Pin,1);
 }
 
@@ -150,19 +150,19 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   	lcd_reset();
-  	RED_DIOD_ON;
+  	RED_DIODE_ON;
   	lcd_command(0x21);
   	lcd_command(0x14);
   	lcd_command(0x80 | 0x3f); //Ustawienie kontrastu
   	lcd_command(0x20);
   	lcd_command(0x0c);
-  	ORANGE_DIOD_ON;
+  	ORANGE_DIODE_ON;
 
   	lcd_data(v_viper, sizeof(v_viper));
-  	GREEN_DIOD_ON;
-  	ORANGE_DIOD_OFF;
-  	RED_DIOD_OFF;
-  	BLUE_DIOD_OFF;
+  	GREEN_DIODE_ON;
+  	ORANGE_DIODE_OFF;
+  	RED_DIODE_OFF;
+  	BLUE_DIODE_OFF;
   /* USER CODE END 2 */
 
   /* Infinite loop */
