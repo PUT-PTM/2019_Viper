@@ -25,6 +25,7 @@
 /* USER CODE BEGIN Includes */
 #include "lis3dsh.h"
 #include "logo.h"
+#include "ScreenLib.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -34,18 +35,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define CE		GPIO_PIN_13
-#define RST		GPIO_PIN_15 //reset - przy starcie stan 0 przez 100ns, potem 1 przy pracy
-#define DC 		GPIO_PIN_14 // 1 - przesylanie danych, 0 - komendy dla wyswietlacza
 
-#define GREEN_DIODE_ON 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12,1)
-#define ORANGE_DIODE_ON	 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13,1)
-#define RED_DIODE_ON			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14,1)
-#define BLUE_DIODE_ON		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15,1)
-#define GREEN_DIODE_OFF		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12,0)
-#define ORANGE_DIODE_OFF	 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13,0)
-#define RED_DIODE_OFF		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14,0)
-#define BLUE_DIODE_OFF		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15,0)
 
 
 /* USER CODE END PD */
@@ -70,44 +60,11 @@ static void MX_SPI1_Init(void);
 static void MX_SPI2_Init(void);
 /* USER CODE BEGIN PFP */
 
-uint8_t spi_sendrecv(uint8_t byte)
-{
- uint8_t answer;
-
- HAL_SPI_TransmitReceive(&hspi2, &byte, &answer, 1, HAL_MAX_DELAY);
-
- return answer;
+uint8_t spi_sendrecv(uint8_t byte){
+	uint8_t answer;
+	HAL_SPI_TransmitReceive(&hspi2, &byte, &answer, 1, HAL_MAX_DELAY);
+	return answer;
 }
-
-void lcd_reset(){
-	HAL_GPIO_WritePin(RST_GPIO_Port,RST_Pin,0);
-	HAL_GPIO_WritePin(RST_GPIO_Port,RST_Pin,1);
-}
-
-void lcd_command(uint8_t cmd){
-	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin,0);
-	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin|CE_Pin,0);
-	spi_sendrecv(cmd);
-	BLUE_DIODE_ON;
-	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin|CE_Pin,1);
-}
-
-void lcd_data(const uint8_t* data, int size){
-	int i;
-	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin,1);
-	HAL_GPIO_WritePin(DC_GPIO_Port,CE_Pin,0);
-	for (i = 0; i < size; i++);
-	for(i=0;i<size;i++){
-		GREEN_DIODE_ON;
-		spi_sendrecv(data[i]);
-
-	}
-
-	GREEN_DIODE_OFF;
-	ORANGE_DIODE_ON;
-	HAL_GPIO_WritePin(DC_GPIO_Port,CE_Pin,1);
-}
-
 
 /* USER CODE END PFP */
 
@@ -149,20 +106,9 @@ int main(void)
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 
-  	lcd_reset();
-  	RED_DIODE_ON;
-  	lcd_command(0x21);
-  	lcd_command(0x14);
-  	lcd_command(0x80 | 0x3f); //Ustawienie kontrastu
-  	lcd_command(0x20);
-  	lcd_command(0x0c);
-  	ORANGE_DIODE_ON;
-
+  	initial_screen();
   	lcd_data(v_viper, sizeof(v_viper));
-  	GREEN_DIODE_ON;
-  	ORANGE_DIODE_OFF;
-  	RED_DIODE_OFF;
-  	BLUE_DIODE_OFF;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
