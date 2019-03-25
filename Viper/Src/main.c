@@ -47,7 +47,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 SPI_HandleTypeDef hspi1;
-SPI_HandleTypeDef hspi2;
+
 
 /* USER CODE BEGIN PV */
 
@@ -60,11 +60,7 @@ static void MX_SPI1_Init(void);
 static void MX_SPI2_Init(void);
 /* USER CODE BEGIN PFP */
 
-uint8_t spi_sendrecv(uint8_t byte){
-	uint8_t answer;
-	HAL_SPI_TransmitReceive(&hspi2, &byte, &answer, 1, HAL_MAX_DELAY);
-	return answer;
-}
+
 
 /* USER CODE END PFP */
 
@@ -106,8 +102,8 @@ int main(void)
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 
-  	initial_screen();
-  	lcd_data(v_viper, sizeof(v_viper));
+  initial_screen();
+  lcd_data(v_viper, sizeof(v_viper));
 
   /* USER CODE END 2 */
 

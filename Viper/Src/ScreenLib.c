@@ -1,5 +1,11 @@
 #include "ScreenLib.h"
 
+uint8_t spi_sendrecv(uint8_t byte){
+	uint8_t answer;
+	HAL_SPI_TransmitReceive(&hspi2, &byte, &answer, 1, HAL_MAX_DELAY);
+	return answer;
+}
+
 void lcd_reset(){
 	HAL_GPIO_WritePin(RST_GPIO_Port,RST_Pin,0);
 	HAL_GPIO_WritePin(RST_GPIO_Port,RST_Pin,1);

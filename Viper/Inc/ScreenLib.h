@@ -1,5 +1,6 @@
 #include "main.h"
 
+
 //defines
 
 #define CE		GPIO_PIN_13
@@ -15,8 +16,11 @@
 #define RED_DIODE_OFF		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14,0)
 #define BLUE_DIODE_OFF		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15,0)
 
+SPI_HandleTypeDef hspi2;
+
 //functions
 
+uint8_t spi_sendrecv(uint8_t byte);
 void lcd_reset();
 void lcd_command(uint8_t cmd);
 void lcd_data(const uint8_t* data, int size);
