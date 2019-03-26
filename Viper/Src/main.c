@@ -105,7 +105,9 @@ int main(void)
 
   initial_screen();
   lcd_data(v_viper, sizeof(v_viper));
-
+    for(int i = 0;i<10;i++){
+  	  lcd_pixel(30,i+10);
+    }
   /* USER CODE END 2 */
 
   /* Infinite loop */
