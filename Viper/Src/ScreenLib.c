@@ -15,7 +15,6 @@ void lcd_command(uint8_t cmd){
 	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin,0);
 	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin|CE_Pin,0);
 	spi_sendrecv(cmd);
-	BLUE_DIODE_ON;
 	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin|CE_Pin,1);
 }
 
@@ -25,13 +24,8 @@ void lcd_data(const uint8_t* data, int size){
 	HAL_GPIO_WritePin(DC_GPIO_Port,CE_Pin,0);
 	for (i = 0; i < size; i++);
 	for(i=0;i<size;i++){
-		GREEN_DIODE_ON;
 		spi_sendrecv(data[i]);
-
 	}
-
-	GREEN_DIODE_OFF;
-	ORANGE_DIODE_ON;
 	HAL_GPIO_WritePin(DC_GPIO_Port,CE_Pin,1);
 }
 
