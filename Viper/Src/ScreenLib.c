@@ -1,5 +1,7 @@
 #include "ScreenLib.h"
 
+uint8_t lcd_buffer[LCD_BUFFER_SIZE];
+
 void spi_sendrecv(uint8_t byte){
 	HAL_SPI_Transmit(&hspi2, &byte, 1, HAL_MAX_DELAY);
 }
@@ -45,4 +47,13 @@ void lcd_pixel(uint8_t X, uint8_t Y) {
 	HAL_GPIO_WritePin(DC_GPIO_Port,CE_Pin,0);
 	spi_sendrecv(0x70);
 	HAL_GPIO_WritePin(DC_GPIO_Port,CE_Pin,1);
+}
+
+void lcd_clear(){
+	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin,1);
+		HAL_GPIO_WritePin(DC_GPIO_Port,CE_Pin,0);
+		for(int i=0;i<LCD_BUFFER_SIZE;i++){
+				spi_sendrecv(0);
+			}
+		HAL_GPIO_WritePin(DC_GPIO_Port,CE_Pin,1);
 }

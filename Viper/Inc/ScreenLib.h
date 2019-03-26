@@ -10,3 +10,4 @@ void lcd_command(uint8_t cmd);
 void lcd_data(const uint8_t* data, int size);
 void initial_screen();
 void lcd_pixel(uint8_t X, uint8_t Y);
+void lcd_clear();

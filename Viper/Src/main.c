@@ -106,10 +106,12 @@ int main(void)
   LISInit();	//inicjalizacja akcelerometru
 
   initial_screen();
-  lcd_data(v_viper, sizeof(v_viper));
-    for(int i = 0;i<10;i++){
-  	  lcd_pixel(30,i+10);
-    }
+
+  lcd_data(suprise, sizeof(suprise));
+  HAL_Delay(3000);
+
+  lcd_clear();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
