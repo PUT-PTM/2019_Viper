@@ -9,28 +9,29 @@ void control(){
 		  accY = out[1]/100;
 		  accZ = out[2]/100;
 
-		  if(accY>8&&accY<10){
-			  GREEN_DIODE_ON;
-			  RED_DIODE_OFF;
-			  ORANGE_DIODE_OFF;
-			  BLUE_DIODE_OFF;
-		  }
-		  else if(accX>-9&&accX<-7){
-			  GREEN_DIODE_OFF;
-			  RED_DIODE_OFF;
-			  ORANGE_DIODE_OFF;
-			  BLUE_DIODE_ON;
-		  }
-		  else if(accY>-9&&accY<-7){
+		  //up
+		  if(accY>1){
 			  GREEN_DIODE_OFF;
 			  RED_DIODE_ON;
 			  ORANGE_DIODE_OFF;
 			  BLUE_DIODE_OFF;
-		  }
-		  else if(accX>8&&accX<10){
+		  }	//down
+		  else if(accY<-1){
+			  GREEN_DIODE_ON;
+			  RED_DIODE_OFF;
+			  ORANGE_DIODE_OFF;
+			  BLUE_DIODE_OFF;
+		  }	//left
+		  else if(accX<-1){
 			  GREEN_DIODE_OFF;
 			  RED_DIODE_OFF;
 			  ORANGE_DIODE_ON;
 			  BLUE_DIODE_OFF;
+		  }	//right
+		  else if(accX>1){
+			  GREEN_DIODE_OFF;
+			  RED_DIODE_OFF;
+			  ORANGE_DIODE_OFF;
+			  BLUE_DIODE_ON;
 		  }
 }
