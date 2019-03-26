@@ -23,7 +23,6 @@ void lcd_data(const uint8_t* data, int size){
 	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin,1);
 	HAL_GPIO_WritePin(DC_GPIO_Port,CE_Pin,0);
 	for(int i=0;i<size;i++){
-			GREEN_DIODE_ON;
 			spi_sendrecv(data[i]);
 		}
 	HAL_GPIO_WritePin(DC_GPIO_Port,CE_Pin,1);
