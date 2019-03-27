@@ -29,3 +29,8 @@
 #define BLUE_DIODE_OFF		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15,0)
 
 #define LCD_BUFFER_SIZE			(84 * 48 / 8)
+#define LCD_WIDTH		84
+#define LCD_HEIGHT		48
+
+#define BLACK	1 //for drawing pixels
+#define WHITE	0 //for clearing pixels

@@ -105,12 +105,33 @@ int main(void)
   /* USER CODE BEGIN 2 */
   LISInit();	//inicjalizacja akcelerometru
 
-  initial_screen();
+  init_screen();
 
-  lcd_data(suprise, sizeof(suprise));
-  HAL_Delay(3000);
+  lcd_data(v_viper, sizeof(v_viper));
+  HAL_Delay(1000);
 
   lcd_clear();
+
+  char title[] = "MENU";
+  char start[] = "START";
+  char scores[] = "SCORES";
+  char exit[] = "EXIT";
+
+
+  lcd_data(logo2, sizeof(logo2));
+  HAL_Delay(1000);
+  lcd_clear();
+
+
+   lcd_draw_string(8,84,title,sizeof(title));
+   lcd_draw_string(8,24,start,sizeof(start));
+   lcd_draw_string(8,16,scores,sizeof(scores));
+   lcd_draw_string(8,12,exit,sizeof(exit));
+
+
+
+
+
 
   /* USER CODE END 2 */
 
