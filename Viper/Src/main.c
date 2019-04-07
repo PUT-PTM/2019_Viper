@@ -123,12 +123,7 @@ int main(void)
   HAL_Delay(1000);
   lcdClear();
 
-  lcdDrawLogo(suprise);
-  lcdCopy();
-  HAL_Delay(1000);
-  lcdClear();
-  lcdCopy();
-
+  lcdDrawSquare(10,18,3);
   lcdDrawText(0,16,title);
   lcdDrawText(2,16,start);
   lcdDrawText(3,16,scores);
@@ -137,19 +132,26 @@ int main(void)
   HAL_Delay(1000);
   lcdClear();
 
-   for(int i = 0;i<LCD_WIDTH;i++){
-	   for(int j = 0;j<LCD_HEIGHT;j++){
-		   lcdDrawPixel(i,j);
-	   }
-   }
-   lcdCopy();
-   HAL_Delay(1000);
-   lcdClear();
-   lcdCopy();
+  lcdDrawSquare(10,26,3);
+  lcdDrawText(0,16,title);
+  lcdDrawText(2,16,start);
+  lcdDrawText(3,16,scores);
+  lcdDrawText(4,16,exit);
+  lcdCopy();
+  HAL_Delay(1000);
+  lcdClear();
 
-   lcdDrawLine(10,10,40,10);
+  lcdDrawSquare(10,34,3);
+  lcdDrawText(0,16,title);
+  lcdDrawText(2,16,start);
+  lcdDrawText(3,16,scores);
+  lcdDrawText(4,16,exit);
+  lcdCopy();
+
+
+   /*lcdDrawLine(10,10,40,10);
    lcdDrawLine(40,10,40,30);
-   lcdCopy();
+   lcdCopy();*/
 
 
   /* USER CODE END 2 */

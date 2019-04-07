@@ -39,8 +39,6 @@ void lcdDrawLogo(const uint8_t * data){
 
 void lcdDrawLine(int x1, int y1, int x2, int y2)
 {
-	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin,1);
-	HAL_GPIO_WritePin(CE_GPIO_Port,CE_Pin,0);
 	int dx, dy, sx, sy;
 	if (x2 >= x1) {
 		dx = x2 - x1;
@@ -73,7 +71,6 @@ void lcdDrawLine(int x1, int y1, int x2, int y2)
     			y1 += sy;
     		}
     	}
-    HAL_GPIO_WritePin(CE_GPIO_Port,CE_Pin,1);
 }
 
 void lcdCopy() {
@@ -101,4 +98,12 @@ void lcdDrawText(int row, int col, const char* text) {
 
 inline void lcdDrawPixel(int x, int y) {
 	lcd_buffer[ x + (y >> 3) * LCD_WIDTH] |= 1 << (y & 7);
+}
+
+void lcdDrawSquare(int x, int y, int h){
+	for(int i = 0;i<h;i++){
+		for(int j = 0;j<h;j++){
+			lcdDrawPixel(x+i,y+j);
+		}
+	}
 }
