@@ -105,12 +105,12 @@ int main(void)
   /* USER CODE BEGIN 2 */
   LISInit();	//inicjalizacja akcelerometru
 
-  init_screen();
+  lcdInitScreen();
 
-  lcd_data(v_viper, sizeof(v_viper));
+  lcdDrawLogo(v_viper);
+  lcdCopy();
   HAL_Delay(1000);
-
-  lcd_clear();
+  lcdClear();
 
   char title[] = "MENU";
   char start[] = "START";
@@ -118,19 +118,38 @@ int main(void)
   char exit[] = "EXIT";
 
 
-  lcd_data(logo2, sizeof(logo2));
+  lcdDrawLogo(logo2);
+  lcdCopy();
   HAL_Delay(1000);
-  lcd_clear();
+  lcdClear();
 
+  lcdDrawLogo(suprise);
+  lcdCopy();
+  HAL_Delay(1000);
+  lcdClear();
+  lcdCopy();
 
-   lcd_draw_string(8,84,title,sizeof(title));
-   lcd_draw_string(8,24,start,sizeof(start));
-   lcd_draw_string(8,16,scores,sizeof(scores));
-   lcd_draw_string(8,12,exit,sizeof(exit));
+  lcdDrawText(0,16,title);
+  lcdDrawText(2,16,start);
+  lcdDrawText(3,16,scores);
+  lcdDrawText(4,16,exit);
+  lcdCopy();
+  HAL_Delay(1000);
+  lcdClear();
 
+   for(int i = 0;i<LCD_WIDTH;i++){
+	   for(int j = 0;j<LCD_HEIGHT;j++){
+		   lcdDrawPixel(i,j);
+	   }
+   }
+   lcdCopy();
+   HAL_Delay(1000);
+   lcdClear();
+   lcdCopy();
 
-
-
+   lcdDrawLine(10,10,40,10);
+   lcdDrawLine(40,10,40,30);
+   lcdCopy();
 
 
   /* USER CODE END 2 */

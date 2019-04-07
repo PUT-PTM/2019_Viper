@@ -28,9 +28,14 @@
 #define RED_DIODE_OFF		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14,0)
 #define BLUE_DIODE_OFF		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15,0)
 
+#define LCD_COMMAND  0
+#define LCD_DATA     1
+
 #define LCD_BUFFER_SIZE			(84 * 48 / 8)
 #define LCD_WIDTH		84
 #define LCD_HEIGHT		48
 
 #define BLACK	1 //for drawing pixels
 #define WHITE	0 //for clearing pixels
+
+uint8_t lcd_buffer[LCD_BUFFER_SIZE];
