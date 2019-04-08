@@ -54,6 +54,10 @@ coordinates head, bend[500],food,body[30];
 
 void Startup() {
 	//char key;	// stan akcelerometru
+
+	lcdClear();
+	printFrame();
+
     length = 5;	// poczatkowa dlugoc
     head.x = 25;	// poczatkowa pozycja glowy zmiji
     head.y = 20;
@@ -65,6 +69,7 @@ void Startup() {
 }
 
 void Move() {
+
     int a,i;
 	//Food();
 	//fflush(stdin);	// ?
@@ -166,9 +171,10 @@ void Right() {
         body[len].x=head.x-i;
         body[len].y=head.y;
 
-        lcdDrawPixel(body[len].x,body[len].y);
+        printFrame();
+        lcdDrawSquare(body[len].x,body[len].y,3);
         lcdCopy();
-        for(int i = 0; i < 10000000; i++);
+        for(int i = 0; i < 6000000; i++);
         lcdClear();
 //        GotoXY(body[len].x,body[len].y);
 //        {
@@ -176,7 +182,7 @@ void Right() {
 //            if(len==0) printf(">");
 //            else printf("=");
 //        }
-        len++;
+        len--;
     }
 //    Bend();
     head.x++;

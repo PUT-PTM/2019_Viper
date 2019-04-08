@@ -64,6 +64,15 @@ void Error_Handler(void);
 #define DC_GPIO_Port GPIOC
 #define RST_Pin GPIO_PIN_15
 #define RST_GPIO_Port GPIOC
+#define UP_Button_Pin GPIO_PIN_1
+#define UP_Button_GPIO_Port GPIOA
+#define UP_Button_EXTI_IRQn EXTI1_IRQn
+#define SELECT_Button_Pin GPIO_PIN_2
+#define SELECT_Button_GPIO_Port GPIOA
+#define SELECT_Button_EXTI_IRQn EXTI2_IRQn
+#define DOWN_Button_Pin GPIO_PIN_3
+#define DOWN_Button_GPIO_Port GPIOA
+#define DOWN_Button_EXTI_IRQn EXTI3_IRQn
 #define Green_Diod_Pin GPIO_PIN_12
 #define Green_Diod_GPIO_Port GPIOD
 #define Orange_Diod_Pin GPIO_PIN_13

@@ -28,6 +28,7 @@
 #include "Accelerometer.h"
 #include "gameEngine.h"
 #include "Defines.h"
+#include "viper.h"
 
 /* USER CODE END Includes */
 
@@ -52,16 +53,82 @@
 SPI_HandleTypeDef hspi1;
 SPI_HandleTypeDef hspi2;
 
+TIM_HandleTypeDef htim4;
+
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
+
+/* USER CODE BEGIN PFP */
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_SPI2_Init(void);
-/* USER CODE BEGIN PFP */
+static void MX_TIM4_Init(void);
+
+volatile int menuState = 0;
+volatile int button = 0;
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+
+   	if(HAL_GPIO_ReadPin(UP_Button_GPIO_Port, UP_Button_Pin) == GPIO_PIN_SET)
+   	{
+   		button=0;
+   	}
+   	else if(HAL_GPIO_ReadPin(SELECT_Button_GPIO_Port, SELECT_Button_Pin) == GPIO_PIN_SET)
+   	{
+   		button=1;
+   	}
+   	else if(HAL_GPIO_ReadPin(DOWN_Button_GPIO_Port, DOWN_Button_Pin) == GPIO_PIN_SET)
+   	{
+   		button=2;
+   	}
+
+   	if(button==0&&menuState==0){
+   		printMenu(0);
+   	}
+   	if(button==0&&menuState==1){
+   		menuState=0;
+   		printMenu(0);
+   	}
+   	if(button==0&&menuState==2){
+   		menuState=1;
+   		printMenu(1);
+   	}
+
+   	if(button==2&&menuState==2){
+   		printMenu(2);
+   	}
+   	if(button==2&&menuState==1){
+   		menuState=2;
+   		printMenu(2);
+   	}
+   	if(button==2&&menuState==0){
+   		menuState=1;
+   		printMenu(1);
+   	}
+
+   	if(button==1&&menuState==0){
+   		Startup();
+   		button = 0;
+   		menuState = 3;
+   	}
+   	if(button==1&&menuState==1){
+   		printScoreMenu();
+   		button = 0;
+   		menuState = 4;
+   	}
+   	if(button==1&&menuState==2){
+   		lcdClear();
+   		button = 0;
+   		menuState = 5;
+   	}
+   	for(int i = 0;i<400000;i++);
+
+}
 
 
 
@@ -103,60 +170,21 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   MX_SPI2_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   LISInit();	//inicjalizacja akcelerometru
 
   lcdInitScreen();
 
-  lcdDrawLogo(v_viper);
-  lcdCopy();
-  HAL_Delay(1000);
-  lcdClear();
+  printLogo(v_viper);
+  printLogo(logo2);
 
-  char title[] = "MENU";
-  char start[] = "START";
-  char scores[] = "SCORES";
-  char exit[] = "EXIT";
+  printMenu(0);
 
 
-  lcdDrawLogo(logo2);
-  lcdCopy();
-  HAL_Delay(1000);
-  lcdClear();
 
-  lcdDrawSquare(10,18,3);
-  lcdDrawText(0,16,title);
-  lcdDrawText(2,16,start);
-  lcdDrawText(3,16,scores);
-  lcdDrawText(4,16,exit);
-  lcdCopy();
-  HAL_Delay(1000);
-  lcdClear();
 
-  lcdDrawSquare(10,26,3);
-  lcdDrawText(0,16,title);
-  lcdDrawText(2,16,start);
-  lcdDrawText(3,16,scores);
-  lcdDrawText(4,16,exit);
-  lcdCopy();
-  HAL_Delay(1000);
-  lcdClear();
 
-  lcdDrawSquare(10,34,3);
-  lcdDrawText(0,16,title);
-  lcdDrawText(2,16,start);
-  lcdDrawText(3,16,scores);
-  lcdDrawText(4,16,exit);
-  lcdCopy();
-  HAL_Delay(1000);
-  lcdClear();
-  lcdCopy();
-
-  Startup();
-
-   /*lcdDrawLine(10,10,40,10);
-   lcdDrawLine(40,10,40,30);
-   lcdCopy();*/
 
 
   /* USER CODE END 2 */
@@ -165,8 +193,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  if(menuState==3){
 	  control();
 	  Move();
+	  }
 
     /* USER CODE END WHILE */
 
@@ -294,6 +324,51 @@ static void MX_SPI2_Init(void)
 }
 
 /**
+  * @brief TIM4 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM4_Init(void)
+{
+
+  /* USER CODE BEGIN TIM4_Init 0 */
+
+  /* USER CODE END TIM4_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM4_Init 1 */
+
+  /* USER CODE END TIM4_Init 1 */
+  htim4.Instance = TIM4;
+  htim4.Init.Prescaler = 8399;
+  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim4.Init.Period = 4999;
+  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM4_Init 2 */
+
+  /* USER CODE END TIM4_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -333,12 +408,28 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : UP_Button_Pin SELECT_Button_Pin DOWN_Button_Pin */
+  GPIO_InitStruct.Pin = UP_Button_Pin|SELECT_Button_Pin|DOWN_Button_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /*Configure GPIO pins : Green_Diod_Pin Orange_Diod_Pin Red_Diod_Pin Blue_Diod_Pin */
   GPIO_InitStruct.Pin = Green_Diod_Pin|Orange_Diod_Pin|Red_Diod_Pin|Blue_Diod_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI1_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI2_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI2_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI3_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI3_IRQn);
 
 }
 
