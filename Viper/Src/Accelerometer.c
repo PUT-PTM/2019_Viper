@@ -6,7 +6,7 @@ void moveUP(){
 	  RED_DIODE_ON;
 	  ORANGE_DIODE_OFF;
 	  BLUE_DIODE_OFF;
-	  stan = UP;
+	  stan = ACC_UP;
 }
 
 void moveDOWN(){
@@ -14,7 +14,7 @@ void moveDOWN(){
 	  RED_DIODE_OFF;
 	  ORANGE_DIODE_OFF;
 	  BLUE_DIODE_OFF;
-	  stan = DOWN;
+	  stan = ACC_DOWN;
 }
 
 void moveLEFT(){
@@ -22,7 +22,7 @@ void moveLEFT(){
 	  RED_DIODE_OFF;
 	  ORANGE_DIODE_ON;
 	  BLUE_DIODE_OFF;
-	  stan = LEFT;
+	  stan = ACC_LEFT;
 }
 
 void moveRIGHT(){
@@ -30,7 +30,7 @@ void moveRIGHT(){
 	  RED_DIODE_OFF;
 	  ORANGE_DIODE_OFF;
 	  BLUE_DIODE_ON;
-	  stan = RIGHT;
+	  stan = ACC_RIGHT;
 }
 
 void control(){

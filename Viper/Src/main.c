@@ -26,6 +26,7 @@
 #include "logo.h"
 #include "ScreenLib.h"
 #include "Accelerometer.h"
+#include "gameEngine.h"
 #include "Defines.h"
 
 /* USER CODE END Includes */
@@ -147,7 +148,11 @@ int main(void)
   lcdDrawText(3,16,scores);
   lcdDrawText(4,16,exit);
   lcdCopy();
+  HAL_Delay(1000);
+  lcdClear();
+  lcdCopy();
 
+  Startup();
 
    /*lcdDrawLine(10,10,40,10);
    lcdDrawLine(40,10,40,30);
@@ -161,6 +166,8 @@ int main(void)
   while (1)
   {
 	  control();
+	  Move();
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

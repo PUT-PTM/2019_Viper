@@ -8,7 +8,8 @@
 #ifndef GAMEENGINE_H_
 #define GAMEENGINE_H_
 
-#include <Defines.h>
+#include "Defines.h"
+#include "ScreenLib.h"
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
@@ -44,7 +45,7 @@ void Start();
 struct coordinates {
 	uint8_t x;
 	uint8_t y;
-	enum STAN direction;
+	uint8_t direction;
 };
 
 typedef struct coordinates coordinates;
@@ -56,7 +57,7 @@ void Startup() {
     length = 5;	// poczatkowa dlugoc
     head.x = 25;	// poczatkowa pozycja glowy zmiji
     head.y = 20;
-    head.direction = RIGHT;
+    head.direction = ACC_RIGHT;
     //Food(); 	// generacja poczatkowa jedzonka
     //life = 3; 	// liczba zyc
     bend[0] = head;
@@ -75,7 +76,8 @@ void Move() {
 	}
 
 
-//	if(head.direction==RIGHT) Right();
+	//if(head.direction==ACC_RIGHT)
+	Right();
 //	else if(head.direction==LEFT) Left();
 //	else if(head.direction==DOWN) Down();
 //	else if(head.direction==UP) Up();
@@ -84,25 +86,25 @@ void Move() {
 
 	// funkcja kontrolujaca koniec gry
 
-    if(	(key==RIGHT && head.direction!=LEFT && head.direction!=RIGHT)||
-		(key==LEFT && head.direction!=RIGHT && head.direction!=LEFT)||
-		(key==UP && head.direction!=DOWN && head.direction!=UP)||
-		(key==DOWN && head.direction!=UP && head.direction!=DOWN)) {
-			bend_no++;
-			bend[bend_no] = head;
-			head.direction = key;	// akcelerometr
-			if(key==UP) head.y--;
-			if(key==DOWN) head.y++;
-			if(key==RIGHT) head.x++;
-			if(key==LEFT) head.x--;
-			Move();
-    } else if(key==27) {	// przerwanie
-		// jesli uzytkownik bedzie chcial zakonczyc gre
-    } else {
-		// tutaj jeszcze nwm
-        printf("\a");
-        Move();
-    }
+//    if(	(key==RIGHT && head.direction!=LEFT && head.direction!=RIGHT)||
+//		(key==LEFT && head.direction!=RIGHT && head.direction!=LEFT)||
+//		(key==UP && head.direction!=DOWN && head.direction!=UP)||
+//		(key==DOWN && head.direction!=UP && head.direction!=DOWN)) {
+//			bend_no++;
+//			bend[bend_no] = head;
+//			head.direction = key;	// akcelerometr
+//			if(key==UP) head.y--;
+//			if(key==DOWN) head.y++;
+//			if(key==RIGHT) head.x++;
+//			if(key==LEFT) head.x--;
+//			Move();
+//    } else if(key==27) {	// przerwanie
+//		// jesli uzytkownik bedzie chcial zakonczyc gre
+//    } else {
+//		// tutaj jeszcze nwm
+//        printf("\a");
+//        Move();
+//    }
 }
 
 // dziwne rzeczy do wyswietlania w danej pozycji w konsoli
@@ -123,7 +125,7 @@ void Move() {
 //    a = GetStdHandle(STD_OUTPUT_HANDLE);
 //    SetConsoleCursorPosition(a,b);
 //}
-//
+
 //void Down() {
 //    int i;
 //    for(i=0; i<=(head.y-bend[bend_no].y)&&len<length; i++) {
@@ -157,24 +159,29 @@ void Move() {
 //    Bend();
 //    if(!kbhit()) head.x--;	// ?
 //}
-//
-//void Right() {
-//    int i;
-//    for(i=0; i<=(head.x-bend[bend_no].x)&&len<length; i++) {
-//        body[len].x=head.x-i;
-//        body[len].y=head.y;
+
+void Right() {
+    int i;
+    for(i=0; i<=(head.x-bend[bend_no].x)&&len<length; i++) {
+        body[len].x=head.x-i;
+        body[len].y=head.y;
+
+        lcdDrawPixel(body[len].x,body[len].y);
+        lcdCopy();
+        for(int i = 0; i < 10000000; i++);
+        lcdClear();
 //        GotoXY(body[len].x,body[len].y);
 //        {
 //			// wyœwietlanie w odpowiednim miejscu zmiji
 //            if(len==0) printf(">");
 //            else printf("=");
 //        }
-//        len++;
-//    }
+        len++;
+    }
 //    Bend();
-//    if(!kbhit()) head.x++;	// ?
-//}
-//
+    head.x++;
+}
+
 //void Up() {
 //    int i;
 //    for(i=0; i<=(bend[bend_no].y-head.y)&&len<length; i++) {

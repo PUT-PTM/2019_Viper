@@ -1,5 +1,8 @@
+#define DEFINES_H
+#ifdef DEFINES_H
+
 #include "main.h"
-#include<stdio.h>
+#include <stdlib.h>
 /*
  * Podpiecie pinow
  *
@@ -39,6 +42,11 @@
 #define BLACK	1 //for drawing pixels
 #define WHITE	0 //for clearing pixels
 
+#define ACC_UP 		0
+#define ACC_DOWN 	1
+#define ACC_LEFT 	2
+#define ACC_RIGHT 	3
+
 uint8_t lcd_buffer[LCD_BUFFER_SIZE];
 
-extern enum STATE {UP,DOWN,RIGHT,LEFT}stan;
+#endif // DEFINES_H
