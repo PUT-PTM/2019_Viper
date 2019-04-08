@@ -8,18 +8,13 @@
 #ifndef GAMEENGINE_H_
 #define GAMEENGINE_H_
 
-#include <Accelerometer.h>
+#include <Defines.h>
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
 #include<time.h>
 #include<ctype.h>
 #include <time.h>
-
-#define UP 72	// tu bêdzie funkcja poruszajaca zmija w gore
-#define DOWN 80	// i analogicznie
-#define LEFT 75
-#define RIGHT 77
 
 uint8_t length;	// poczatkowa dlugosc
 uint8_t bend_no;
@@ -49,7 +44,7 @@ void Start();
 struct coordinates {
 	uint8_t x;
 	uint8_t y;
-	uint8_t direction;
+	enum STAN direction;
 };
 
 typedef struct coordinates coordinates;
@@ -71,19 +66,21 @@ void Startup() {
 void Move() {
     int a,i;
 	//Food();
-	fflush(stdin);	// ?
+	//fflush(stdin);	// ?
 	len=0;
 	for(i=0; i<30; i++) {
 		body[i].x=0;
 		body[i].y=0;
 		if(i==length) break;
 	}
-	if(head.direction==RIGHT) Right();
-	else if(head.direction==LEFT) Left();
-	else if(head.direction==DOWN) Down();
-	else if(head.direction==UP) Up();
 
-	ExitGame();	//kolizja
+
+//	if(head.direction==RIGHT) Right();
+//	else if(head.direction==LEFT) Left();
+//	else if(head.direction==DOWN) Down();
+//	else if(head.direction==UP) Up();
+
+//	ExitGame();	//kolizja
 
 	// funkcja kontrolujaca koniec gry
 

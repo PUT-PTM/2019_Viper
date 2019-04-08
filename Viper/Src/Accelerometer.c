@@ -1,10 +1,6 @@
 #include "Defines.h"
 #include "Accelerometer.h"
 
-
-float accX, accY, accZ, out[4];
-
-
 void moveUP(){
 	  GREEN_DIODE_OFF;
 	  RED_DIODE_ON;
