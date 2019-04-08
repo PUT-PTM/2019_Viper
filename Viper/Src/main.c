@@ -123,11 +123,11 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
    	}
    	if(button==1&&menuState==2){
    		lcdClear();
+   		lcdCopy();
    		button = 0;
    		menuState = 5;
    	}
-   	for(int i = 0;i<400000;i++);
-
+   	for(int i = 0;i<50;i++);
 }
 
 
@@ -194,8 +194,8 @@ int main(void)
   while (1)
   {
 	  if(menuState==3){
-	  control();
-	  Move();
+		  control();
+		  Move();
 	  }
 
     /* USER CODE END WHILE */
