@@ -1,4 +1,5 @@
 #include "main.h"
+#include<stdio.h>
 /*
  * Podpiecie pinow
  *
@@ -39,3 +40,5 @@
 #define WHITE	0 //for clearing pixels
 
 uint8_t lcd_buffer[LCD_BUFFER_SIZE];
+
+extern enum STATE {UP,DOWN,RIGHT,LEFT}stan;

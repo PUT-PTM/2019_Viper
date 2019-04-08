@@ -1,50 +1,16 @@
 #include "Defines.h"
 #include "Accelerometer.h"
 
+
 float accX, accY, accZ, out[4];
-int state[4];
 
-int getState(){
-	for(int i = 0; i < 4; i++){
-		if(state[i] == 1)
-			return i;
-	}
-}
-
-void setUP(){
-	state[0] = 1;
-	state[1] = 0;
-	state[2] = 0;
-	state[3] = 0;
-}
-
-void setDOWN(){
-	state[0] = 0;
-	state[1] = 1;
-	state[2] = 0;
-	state[3] = 0;
-}
-
-void setLEFT(){
-	state[0] = 0;
-	state[1] = 0;
-	state[2] = 1;
-	state[3] = 0;
-}
-
-void setRIGHT(){
-	state[0] = 0;
-	state[1] = 0;
-	state[2] = 0;
-	state[3] = 1;
-}
 
 void moveUP(){
 	  GREEN_DIODE_OFF;
 	  RED_DIODE_ON;
 	  ORANGE_DIODE_OFF;
 	  BLUE_DIODE_OFF;
-	  setUP();
+	  stan = UP;
 }
 
 void moveDOWN(){
@@ -52,7 +18,7 @@ void moveDOWN(){
 	  RED_DIODE_OFF;
 	  ORANGE_DIODE_OFF;
 	  BLUE_DIODE_OFF;
-	  setDOWN();
+	  stan = DOWN;
 }
 
 void moveLEFT(){
@@ -60,7 +26,7 @@ void moveLEFT(){
 	  RED_DIODE_OFF;
 	  ORANGE_DIODE_ON;
 	  BLUE_DIODE_OFF;
-	  setLEFT();
+	  stan = LEFT;
 }
 
 void moveRIGHT(){
@@ -68,7 +34,7 @@ void moveRIGHT(){
 	  RED_DIODE_OFF;
 	  ORANGE_DIODE_OFF;
 	  BLUE_DIODE_ON;
-	  setRIGHT();
+	  stan = RIGHT;
 }
 
 void control(){
