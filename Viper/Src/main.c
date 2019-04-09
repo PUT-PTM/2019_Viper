@@ -127,7 +127,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
    		button = 0;
    		menuState = 5;
    	}
-   	for(int i = 0;i<50;i++);
+
 }
 
 
