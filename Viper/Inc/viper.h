@@ -16,5 +16,4 @@ extern void printFrame();
 extern void printScoreMenu();
 
 
-
 #endif /* VIPER_H_ */
