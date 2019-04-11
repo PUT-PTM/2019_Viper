@@ -71,40 +71,6 @@ coordinates head, bend[500],food,body[30];
 //    SetConsoleCursorPosition(a,b);
 //}
 
-//void Down() {
-//    int i;
-//    for(i=0; i<=(head.y-bend[bend_no].y)&&len<length; i++) {
-//        GotoXY(head.x,head.y-i);
-//        {
-//			// wyœwietlanie w odpowiednim miejscu zmiji
-//            if(len==0) printf("v");
-//            else printf("=");
-//        }
-//        body[len].x=head.x;
-//        body[len].y=head.y-i;
-//        len++;
-//    }
-//    Bend();
-//    if(!kbhit()) head.y++;	// ?
-//}
-
-//void Up() {
-//    int i;
-//    for(i=0; i<=(bend[bend_no].y-head.y)&&len<length; i++) {
-//        GotoXY(head.x,head.y+i);
-//        {
-//			// wyœwietlanie w odpowiednim miejscu zmiji
-//            if(len==0) printf("^");
-//            else printf("=");
-//        }
-//        body[len].x=head.x;
-//        body[len].y=head.y+i;
-//        len++;
-//    }
-//    Bend();
-//    if(!kbhit()) head.y--;	// ?
-//}
-//
 //// generuje losowa pozycje jedzonka
 //void Food() {
 //    if(head.x==food.x&&head.y==food.y) {

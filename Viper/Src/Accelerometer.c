@@ -35,15 +35,13 @@ void moveRIGHT(){
 
 void control(){
 	LIS3DSH_ReadACC(out);
+
 	accX = out[0]/100;
 	accY = out[1]/100;
 	accZ = out[2]/100;
-	//up
-	if(accY>1) moveUP();
-	//down
-	else if(accY<-1) moveDOWN();
-	//left
-	else if(accX<-1) moveLEFT();
-	//right
-	else if(accX>1) moveRIGHT();
+
+	if(accY>1) moveUP();			//up
+	else if(accY<-1) moveDOWN();	//down
+	else if(accX<-1) moveLEFT();	//left
+	else if(accX>1) moveRIGHT();	//right
 }

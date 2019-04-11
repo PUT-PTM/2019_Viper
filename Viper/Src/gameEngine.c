@@ -13,12 +13,7 @@ void Startup() {
     length = 5;	// poczatkowa dlugoc
     head.x = 25;	// poczatkowa pozycja glowy zmiji
     head.y = 20;
-
-
-    //	to musi sie dziac w innym miejscu
-    head.direction = ACC_RIGHT;			//!!!!!!!!!!!!!!!!
-
-
+    head.direction = ACC_RIGHT;
 
     //Food(); 	// generacja poczatkowa jedzonka
     //life = 3; 	// liczba zyc
@@ -37,10 +32,12 @@ void Move() {
 		if(i==length) break;
 	}
 
+	head.direction = stan;
+
 	if(head.direction==ACC_RIGHT) Right();
 	if(head.direction==ACC_LEFT) Left();
-//	else if(head.direction==ACC_DOWN) Down();
-//	else if(head.direction==ACC_UP) Up();
+	if(head.direction==ACC_DOWN) Down();
+	if(head.direction==ACC_UP) Up();
 
 //	ExitGame();	//kolizja
 
@@ -84,7 +81,8 @@ void Left() {
 //            if(len==0) printf("<");
 //            else printf("=");
 //        }
-        len++;
+        //len++;
+        len--;
     }
 //    Bend();
     head.x--;
@@ -111,5 +109,55 @@ void Right() {
     }
 //    Bend();
     head.x++;
+}
+
+void Down() {
+    int i;
+    for(i=0; i<=(head.y-bend[bend_no].y)&&len<length; i++) {
+//        GotoXY(head.x,head.y-i);
+//        {
+//			// wyœwietlanie w odpowiednim miejscu zmiji
+//            if(len==0) printf("v");
+//            else printf("=");
+//        }
+        body[len].x=head.x;
+        body[len].y=head.y-i;
+
+        printFrame();
+        lcdDrawSquare(body[len].x,body[len].y,3);
+        lcdCopy();
+        for(int i = 0; i < 6000000; i++);
+        lcdClear();
+
+        len--;
+        //len++;
+    }
+//    Bend();
+    head.y++;
+}
+
+void Up() {
+    int i;
+    for(i=0; i<=(bend[bend_no].y-head.y)&&len<length; i++) {
+//        GotoXY(head.x,head.y+i);
+//        {
+//			// wyœwietlanie w odpowiednim miejscu zmiji
+//            if(len==0) printf("^");
+//            else printf("=");
+//        }
+        body[len].x=head.x;
+        body[len].y=head.y+i;
+
+        printFrame();
+        lcdDrawSquare(body[len].x,body[len].y,3);
+        lcdCopy();
+        for(int i = 0; i < 6000000; i++);
+        lcdClear();
+
+        len--;
+        //len++;
+    }
+//    Bend();
+    head.y--;
 }
 
