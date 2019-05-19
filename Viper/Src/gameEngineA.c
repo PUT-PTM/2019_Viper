@@ -22,27 +22,24 @@ void setUP(){
 	tailLeng = 300* nTail;
 }
 void Draw() {
-
+	printFrame();
 	for (int i = 0; i < LCD_HEIGHT - 4; i++) {
 		for (int j = 0; j < LCD_WIDTH - 4; j++) {
-			/*if (i == y && j == x) {
-				printFrame();
-				for (int i = 0; i < 7000000; i++);
+			if (i == y && j == x) {
+				//for (int i = 0; i < 7000000; i++);
 				printHead(x, y);
 
-			}*/
-
-			bool print = false;
-			for (int k = 0; k < nTail; k++)
-			{
-				if (tailX[k] == j && tailY[k] == i)
-				{
-					printFrame();
-					for (int i = 0; i < (9000000/tailLeng); i++);
-					printHead(tailX[k], tailY[k]);
-					print = true;
-				}
 			}
+
+//			for (int k = 0; k < nTail; k++)
+//			{
+//				if (tailX[k] == j && tailY[k] == i)
+//				{
+//					printFrame();
+//					for (int i = 0; i < (9000000/tailLeng); i++);
+//					printHead(tailX[k], tailY[k]);
+//				}
+//			}
 		}
 	}
 }
