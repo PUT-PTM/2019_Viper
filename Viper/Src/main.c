@@ -29,6 +29,7 @@
 #include "gameEngine.h"
 #include "Defines.h"
 #include "viper.h"
+#include "gameEngineA.h"
 
 /* USER CODE END Includes */
 
@@ -182,7 +183,7 @@ int main(void)
   printMenu(0);
 
 
-
+  setUP();
 
 
 
@@ -194,8 +195,11 @@ int main(void)
   while (1)
   {
 	  if(menuState==3){
-		  control();
-		  Move();
+		  //control();
+		  //Move();
+		  Draw();
+		  Input();
+		  Logic();
 	  }
 
     /* USER CODE END WHILE */

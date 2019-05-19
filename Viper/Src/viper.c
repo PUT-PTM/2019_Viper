@@ -53,3 +53,15 @@ extern void printScoreMenu(){
 	lcdCopy();
 }
 
+void printHead(int x, int y){
+	lcdClear();
+	lcdDrawSquare(x,y,3);
+	lcdCopy();
+}
+
+void printFruit(int x, int y){
+	lcdClear();
+	lcdDrawSquare(x,y,5);
+	lcdCopy();
+}
+

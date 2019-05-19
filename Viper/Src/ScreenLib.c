@@ -54,7 +54,6 @@ void lcdDrawLine(int x1, int y1, int x2, int y2)
 		dy = y2 - y1;
 		sy = -1;
 	}
-
 	int dx2 = dx << 1;
 	int dy2 = dy << 1;
     int err = dx2 + dy2;

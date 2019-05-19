@@ -1,47 +1,47 @@
 #include "Defines.h"
 #include "Accelerometer.h"
 
-void moveUP(){
+int moveUP(){
 	  GREEN_DIODE_OFF;
 	  RED_DIODE_ON;
 	  ORANGE_DIODE_OFF;
 	  BLUE_DIODE_OFF;
-	  stan = ACC_UP;
+	  return ACC_UP;
 }
 
-void moveDOWN(){
+int moveDOWN(){
 	  GREEN_DIODE_ON;
 	  RED_DIODE_OFF;
 	  ORANGE_DIODE_OFF;
 	  BLUE_DIODE_OFF;
-	  stan = ACC_DOWN;
+	  return ACC_DOWN;
 }
 
-void moveLEFT(){
+int moveLEFT(){
 	  GREEN_DIODE_OFF;
 	  RED_DIODE_OFF;
 	  ORANGE_DIODE_ON;
 	  BLUE_DIODE_OFF;
-	  stan = ACC_LEFT;
+	  return ACC_LEFT;
 }
 
-void moveRIGHT(){
+int moveRIGHT(){
 	  GREEN_DIODE_OFF;
 	  RED_DIODE_OFF;
 	  ORANGE_DIODE_OFF;
 	  BLUE_DIODE_ON;
-	  stan = ACC_RIGHT;
+	  return ACC_RIGHT;
 }
 
-void control(){
+int control(){
 	LIS3DSH_ReadACC(out);
 
 	accX = out[0]/100;
 	accY = out[1]/100;
 	accZ = out[2]/100;
 
-	if(accY>1) moveUP();			//up
-	else if(accY<-1) moveDOWN();	//down
-	else if(accX<-1) moveLEFT();	//left
-	else if(accX>1) moveRIGHT();	//right
+	if(accY>1) return moveUP();			//up
+	else if(accY<-1) return moveDOWN();	//down
+	else if(accX<-1)  return moveLEFT();	//left
+	else if(accX>1)  return moveRIGHT();//right
 }
