@@ -69,7 +69,7 @@ static void MX_SPI1_Init(void);
 static void MX_SPI2_Init(void);
 static void MX_TIM4_Init(void);
 
-volatile int menuState = 0;
+
 volatile int button = 0;
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
@@ -173,6 +173,7 @@ int main(void)
   MX_SPI2_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
+  menuState = 0;
   LISInit();	//inicjalizacja akcelerometru
 
   lcdInitScreen();

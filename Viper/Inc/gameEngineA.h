@@ -30,6 +30,7 @@ uint8_t nTail, tailLeng;
 enum eDirection {STOP = 0, LEFT, RIGHT, UP, DOWN}dir;
 
 void setUP();
+void gameOVER();
 void Draw();
 void Input();
 void Logic();

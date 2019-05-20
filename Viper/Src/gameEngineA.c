@@ -11,40 +11,51 @@
 void setUP(){
 	gameOver = false;
 	dir = STOP;
-	x = LCD_HEIGHT/3;
-	y = LCD_WIDTH/5;
+	x = LCD_WIDTH/3;
+	y = LCD_HEIGHT/5;
 	tailX[0] = x;
 	tailY[0] = y;
 	fruitX = rand()%LCD_WIDTH;
 	fruitY = rand()%LCD_HEIGHT;
 	score = 0;
-	nTail = 10;
-	tailLeng = 300* nTail;
+	nTail = 5;
+	tailLeng = 20*300*nTail;
 }
+
+void gameOVER(){
+	dir=STOP;
+	lcdClear();
+	char title[] = "GAME OVER";
+	lcdDrawText(3, 16, title);
+	lcdCopy();
+}
+
 void Draw() {
+	lcdClear();
+	for (int i = 0; i < LCD_HEIGHT; i++) {
+		for (int j = 0; j < LCD_WIDTH; j++) {
+			lcdDrawLine(0, 0, 84, 0);
+			lcdDrawLine(0, 0, 0, 48);
+			lcdDrawLine(83, 47, 0, 47);
+			lcdDrawLine(83, 47, 83, 0);
 
-	for (int i = 0; i < LCD_HEIGHT - 4; i++) {
-		for (int j = 0; j < LCD_WIDTH - 4; j++) {
-			/*if (i == y && j == x) {
-				printFrame();
-				for (int i = 0; i < 7000000; i++);
-				printHead(x, y);
+			if (i == y && j == x) {
+				lcdDrawSquare(x, y, 3);
 
-			}*/
-
-			bool print = false;
-			for (int k = 0; k < nTail; k++)
-			{
-				if (tailX[k] == j && tailY[k] == i)
-				{
-					printFrame();
-					for (int i = 0; i < (9000000/tailLeng); i++);
-					printHead(tailX[k], tailY[k]);
-					print = true;
+			} else {
+				bool print = false;
+				for (int k = 0; k < nTail; k++) {
+					if (tailX[k] == j && tailY[k] == i) {
+						lcdDrawSquare(tailX[k], tailY[k], 3);
+						print = true;
+					}
 				}
 			}
 		}
 	}
+	lcdCopy();
+	for (int i = 0; i < 900000; i++)
+		;
 }
 void Input(){
 	int stan = control();
@@ -72,30 +83,30 @@ void Logic() {
 
 	switch (dir) {
 	case LEFT:
-		x--;
+		x=x-3;
 		break;
 	case RIGHT:
-		x++;
+		x=x+3;
 		break;
 	case UP:
-		y--;
+		y=y-3;
 		break;
 	case DOWN:
-		y++;
+		y=y+3;
 		break;
 	default:
 		break;
 	}
 
 	//zderzenie ze sciana
-	if (tailX[0] == LCD_WIDTH - 1 || tailX[0] == 0 || tailY[0] == LCD_HEIGHT - 1 || tailY[0] == 0) {
-		gameOver = true;
+	if (x >= LCD_WIDTH-3 || x < 0 || y >= LCD_HEIGHT-3 || y < 0) {
+		gameOVER();
 	}
 	//zderzenie ze soba
 
 	for (int i = 0; i < nTail; i++) {
-		if (tailX[i] == x && tailY[i] == y)
-			gameOver = true;
+		if (tailY[i] == x && tailX[i] == y)
+			gameOVER();
 	}
 
 	//owocek!!

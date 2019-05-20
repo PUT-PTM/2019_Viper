@@ -47,5 +47,6 @@
 #define ACC_RIGHT 	3
 
 uint8_t lcd_buffer[LCD_BUFFER_SIZE];
+volatile int menuState ;
 
 #endif // DEFINES_H
