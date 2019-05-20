@@ -1,7 +1,7 @@
 #include "Defines.h"
 #include "Accelerometer.h"
 
-int moveDOWN(){
+int moveUP(){
 	  GREEN_DIODE_OFF;
 	  RED_DIODE_ON;
 	  ORANGE_DIODE_OFF;
@@ -9,7 +9,7 @@ int moveDOWN(){
 	  return ACC_UP;
 }
 
-int moveUP(){
+int moveDOWN(){
 	  GREEN_DIODE_ON;
 	  RED_DIODE_OFF;
 	  ORANGE_DIODE_OFF;
