@@ -1,36 +1,36 @@
 #include "Defines.h"
 #include "Accelerometer.h"
 
-int moveDOWN(){
-	GREEN_DIODE_ON;
-	RED_DIODE_OFF;
-	ORANGE_DIODE_OFF;
-	BLUE_DIODE_OFF;
-	return ACC_UP;
+int moveUP(){
+	  GREEN_DIODE_OFF;
+	  RED_DIODE_ON;
+	  ORANGE_DIODE_OFF;
+	  BLUE_DIODE_OFF;
+	  return ACC_UP;
 }
 
-int moveUP(){
-	GREEN_DIODE_OFF;
-	RED_DIODE_ON;
-	ORANGE_DIODE_OFF;
-	BLUE_DIODE_OFF;
-	return ACC_DOWN;
+int moveDOWN(){
+	  GREEN_DIODE_ON;
+	  RED_DIODE_OFF;
+	  ORANGE_DIODE_OFF;
+	  BLUE_DIODE_OFF;
+	  return ACC_DOWN;
 }
 
 int moveLEFT(){
-	GREEN_DIODE_OFF;
-	RED_DIODE_OFF;
-	ORANGE_DIODE_ON;
-	BLUE_DIODE_OFF;
-	return ACC_LEFT;
+	  GREEN_DIODE_OFF;
+	  RED_DIODE_OFF;
+	  ORANGE_DIODE_ON;
+	  BLUE_DIODE_OFF;
+	  return ACC_LEFT;
 }
 
 int moveRIGHT(){
-	GREEN_DIODE_OFF;
-	RED_DIODE_OFF;
-	ORANGE_DIODE_OFF;
-	BLUE_DIODE_ON;
-	return ACC_RIGHT;
+	  GREEN_DIODE_OFF;
+	  RED_DIODE_OFF;
+	  ORANGE_DIODE_OFF;
+	  BLUE_DIODE_ON;
+	  return ACC_RIGHT;
 }
 
 int control(){
@@ -40,9 +40,8 @@ int control(){
 	accY = out[1]/100;
 	accZ = out[2]/100;
 
-	if(accY>0.5) return moveUP();			//up
-	else if(accY<-0.5) return moveDOWN();	//down
-	else if(accX<-0.5)  return moveLEFT();	//left
-	else if(accX>0.5)  return moveRIGHT();	//right
-
+	if(accY>1) return moveUP();			//up
+	else if(accY<-1) return moveDOWN();	//down
+	else if(accX<-1)  return moveLEFT();	//left
+	else if(accX>1)  return moveRIGHT();//right
 }
