@@ -10,10 +10,12 @@
 
 #include "ScreenLib.h"
 
-extern void printLogo(const uint8_t * data);
-extern void printMenu(int i);
-extern void printFrame();
-extern void printScoreMenu();
+void printLogo(const uint8_t * data);
+void printMenu(int i);
+void printFrame();
+void printScoreMenu();
+void printGameOver();
+
 void printHead(int x, int y);
 void printFruit(int x, int y);
 

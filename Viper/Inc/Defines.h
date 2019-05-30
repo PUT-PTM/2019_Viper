@@ -48,5 +48,6 @@
 
 uint8_t lcd_buffer[LCD_BUFFER_SIZE];
 volatile int menuState ;
+volatile int score;
 
 #endif // DEFINES_H

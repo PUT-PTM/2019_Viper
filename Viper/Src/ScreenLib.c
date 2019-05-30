@@ -106,3 +106,7 @@ void lcdDrawSquare(int x, int y, int h){
 		}
 	}
 }
+
+void lcdDrawFruit(int x, int y){
+
+}

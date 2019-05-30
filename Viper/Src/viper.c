@@ -5,15 +5,16 @@
  *      Author: Alicja
  */
 #include "viper.h"
+#include<stdlib.h>
 
-extern void printLogo(const uint8_t * data){
+void printLogo(const uint8_t * data){
 	lcdDrawLogo(data);
 	lcdCopy();
 	HAL_Delay(1000);
 	lcdClear();
 }
 
-extern void printMenu(int i){
+void printMenu(int i){
 	lcdClear();
 
 	char title[] = "MENU";
@@ -37,7 +38,7 @@ extern void printMenu(int i){
 	lcdCopy();
 }
 
-extern void printFrame(){
+void printFrame(){
 	lcdDrawLine(0,0,84,0);
 	lcdDrawLine(0,0,0,48);
 	lcdDrawLine(83,47,0,47);
@@ -45,11 +46,21 @@ extern void printFrame(){
 	lcdCopy();
 }
 
-extern void printScoreMenu(){
+void printScoreMenu(){
 	lcdClear();
-
 	char title[] = "BEST SCORES";
 	lcdDrawText(0, 0, title);
+	lcdCopy();
+}
+
+void printGameOver(){
+	lcdClear();
+	char cScore[10] = "";
+	char title[] = "GAME OVER";
+	char scoreBar[] = "YOUR SCORE IS";
+	lcdDrawText(2, 16, title);
+	lcdDrawText(3,4,scoreBar);
+	lcdDrawText(4,38,itoa(score-1,cScore,10));
 	lcdCopy();
 }
 

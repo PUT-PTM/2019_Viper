@@ -21,16 +21,17 @@
 #define false 0
 
 bool gameOver;
-uint8_t x,y,fruitX,fruitY,score;
+uint8_t x,y,fruitX,fruitY;
 
 //viper
 uint8_t tailX[100], tailY[100];
 uint8_t nTail, tailLeng;
 
 enum eDirection {STOP = 0, LEFT, RIGHT, UP, DOWN}dir;
+enum STATE {stateSTART, stateLEFT,stateRIGHT,stateUP,stateDOWN, stateGameOver}state,prevState;
 
 void setUP();
-void gameOVER();
+int gameOVER();
 void Draw();
 void Input();
 void Logic();

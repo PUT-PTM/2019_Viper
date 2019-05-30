@@ -10,7 +10,8 @@
 
 void setUP(){
 	gameOver = false;
-	dir = STOP;
+	dir = LEFT;
+	state = stateLEFT;
 	x = LCD_WIDTH/3;
 	y = LCD_HEIGHT/5;
 	tailX[0] = x;
@@ -18,16 +19,14 @@ void setUP(){
 	fruitX = rand()%LCD_WIDTH;
 	fruitY = rand()%LCD_HEIGHT;
 	score = 0;
-	nTail = 5;
-	tailLeng = 20*300*nTail;
+	nTail = 3;
+
 }
 
-void gameOVER(){
-	dir=STOP;
-	lcdClear();
-	char title[] = "GAME OVER";
-	lcdDrawText(3, 16, title);
-	lcdCopy();
+int gameOVER(){
+	if(state==stateGameOver&&dir==STOP)
+		return 1;
+	else return 0;
 }
 
 void Draw() {
@@ -39,23 +38,22 @@ void Draw() {
 			lcdDrawLine(83, 47, 0, 47);
 			lcdDrawLine(83, 47, 83, 0);
 
+			lcdDrawSquare(fruitX,fruitY,3);
+
 			if (i == y && j == x) {
 				lcdDrawSquare(x, y, 3);
 
 			} else {
-				bool print = false;
 				for (int k = 0; k < nTail; k++) {
 					if (tailX[k] == j && tailY[k] == i) {
 						lcdDrawSquare(tailX[k], tailY[k], 3);
-						print = true;
 					}
 				}
 			}
 		}
 	}
 	lcdCopy();
-	for (int i = 0; i < 900000; i++)
-		;
+	for (int i = 0; i < 900000; i++);
 }
 void Input(){
 	int stan = control();
@@ -81,36 +79,58 @@ void Logic() {
 		prevY = prev2Y;
 	}
 
+
 	switch (dir) {
 	case LEFT:
-		x=x-3;
+		//if(prevState!=stateRIGHT){
+		//	prevState=state;
+			x=x-3;
+			state=stateLEFT;
+		//}
 		break;
 	case RIGHT:
-		x=x+3;
+		//if(prevState!=stateLEFT) {
+		//	prevState=state;
+			x=x+3;
+			state = stateRIGHT;
+		//}
 		break;
 	case UP:
-		y=y-3;
+		//if(prevState!=stateDOWN){
+		//	prevState=state;
+			y=y-3;
+			state = stateUP;
+		//}
 		break;
 	case DOWN:
-		y=y+3;
+		//if(prevState!=stateUP){
+		//	prevState=state;
+			y=y+3;
+			state = stateUP;
+		//}
 		break;
 	default:
 		break;
 	}
 
 	//zderzenie ze sciana
-	if (x >= LCD_WIDTH-3 || x < 0 || y >= LCD_HEIGHT-3 || y < 0) {
-		gameOVER();
+	if (tailX[0] >= LCD_WIDTH-3 || x < 0 || tailY[0] >= LCD_HEIGHT-3 || y < 0) {
+		state=stateGameOver;
+		dir=STOP;
 	}
 	//zderzenie ze soba
 
-	for (int i = 0; i < nTail; i++) {
-		if (tailY[i] == x && tailX[i] == y)
-			gameOVER();
+	if(nTail>5){
+		for (int i = 1; i < nTail; i++) {
+			if (tailY[i] == y && tailX[i] == x){
+					state=stateGameOver;
+					dir = STOP;
+			}
+		}
 	}
 
 	//owocek!!
-	if (x == fruitX && y == fruitY) {
+	if ((x <= fruitX+3 && x >= fruitX-3) && (y <= fruitY+1 && y >= fruitY-1)) {
 		score += 10;
 		fruitX = rand() % LCD_WIDTH;
 		fruitY = rand() % LCD_HEIGHT;

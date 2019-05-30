@@ -17,5 +17,6 @@ extern void lcdDrawText(int row, int col, const char* text);
 extern inline void lcdDrawPixel(int x, int y);
 extern void lcdDrawLine(int x1, int y1, int x2, int y2);
 extern void lcdDrawSquare(int x, int y,int h);
+void lcdDrawFruit(int x, int y);
 
 void lcd_copy();

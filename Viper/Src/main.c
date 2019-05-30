@@ -173,6 +173,7 @@ int main(void)
   MX_SPI2_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
+  srand(time(NULL));
   menuState = 0;
   LISInit();	//inicjalizacja akcelerometru
 
@@ -186,9 +187,6 @@ int main(void)
 
   setUP();
 
-
-
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -196,11 +194,19 @@ int main(void)
   while (1)
   {
 	  if(menuState==3){
-		  //control();
-		  //Move();
 		  Draw();
 		  Input();
 		  Logic();
+		  if(gameOVER()==1){
+			  printGameOver();
+			  menuState=4;
+			  for(int i=0;i<100000000;i++);
+			  //break;
+		  }
+	  }
+	  if(menuState==4){
+		  setUP();
+		  menuState = 3;
 	  }
 
     /* USER CODE END WHILE */
