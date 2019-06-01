@@ -128,7 +128,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
    		button = 0;
    		menuState = 5;
    	}
-
 }
 
 
@@ -200,13 +199,14 @@ int main(void)
 		  if(gameOVER()==1){
 			  printGameOver();
 			  menuState=4;
-			  for(int i=0;i<100000000;i++);
-			  //break;
+			  for(int i=0;i<70000000;i++);
+			  Restart();
 		  }
 	  }
 	  if(menuState==4){
 		  setUP();
-		  menuState = 3;
+		  menuState = 0;
+		  printMenu(0);
 	  }
 
     /* USER CODE END WHILE */

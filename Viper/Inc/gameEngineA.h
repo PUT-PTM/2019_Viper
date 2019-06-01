@@ -28,12 +28,13 @@ uint8_t tailX[100], tailY[100];
 uint8_t nTail, tailLeng;
 
 enum eDirection {STOP = 0, LEFT, RIGHT, UP, DOWN}dir;
-enum STATE {stateSTART, stateLEFT,stateRIGHT,stateUP,stateDOWN, stateGameOver}state,prevState;
+enum STATE {stateSTART, stateLEFT,stateRIGHT,stateUP,stateDOWN, stateGameOver}state;
 
 void setUP();
 int gameOVER();
 void Draw();
 void Input();
 void Logic();
+void Restart();
 
 #endif /* GAMEENGINEA_H_ */

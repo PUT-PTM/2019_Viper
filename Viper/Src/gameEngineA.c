@@ -7,26 +7,23 @@
 
 #include "gameEngineA.h"
 
-
-void setUP(){
-	gameOver = false;
-	dir = LEFT;
-	state = stateLEFT;
+void setUP() {
+	dir = STOP;
 	x = LCD_WIDTH/3;
-	y = LCD_HEIGHT/5;
+	y = LCD_HEIGHT/4;
 	tailX[0] = x;
 	tailY[0] = y;
-	fruitX = rand()%LCD_WIDTH;
-	fruitY = rand()%LCD_HEIGHT;
+	fruitX = rand() % LCD_WIDTH + 1;
+	fruitY = rand() % LCD_HEIGHT + 1;
 	score = 0;
 	nTail = 3;
-
 }
 
-int gameOVER(){
-	if(state==stateGameOver&&dir==STOP)
+int gameOVER() {
+	if (state == stateGameOver && dir == STOP)
 		return 1;
-	else return 0;
+	else
+		return 0;
 }
 
 void Draw() {
@@ -38,7 +35,7 @@ void Draw() {
 			lcdDrawLine(83, 47, 0, 47);
 			lcdDrawLine(83, 47, 83, 0);
 
-			lcdDrawSquare(fruitX,fruitY,3);
+			lcdDrawSquare(fruitX, fruitY, 3);
 
 			if (i == y && j == x) {
 				lcdDrawSquare(x, y, 3);
@@ -53,14 +50,19 @@ void Draw() {
 		}
 	}
 	lcdCopy();
-	for (int i = 0; i < 900000; i++);
+	for (int i = 0; i < 900000; i++)
+		;
 }
-void Input(){
+void Input() {
 	int stan = control();
-	if(stan==ACC_RIGHT) dir = RIGHT;
-	else if(stan==ACC_LEFT) dir = LEFT;
-	else if(stan==ACC_UP) dir = UP;
-	else if(stan==ACC_DOWN) dir = DOWN;
+	if (stan == ACC_RIGHT && dir != LEFT)
+		dir = RIGHT;
+	else if (stan == ACC_LEFT && dir != RIGHT)
+		dir = LEFT;
+	else if (stan == ACC_UP && dir != DOWN)
+		dir = UP;
+	else if (stan == ACC_DOWN && dir != UP)
+		dir = DOWN;
 
 }
 void Logic() {
@@ -70,7 +72,7 @@ void Logic() {
 	int prev2X, prev2Y;
 	tailX[0] = x;
 	tailY[0] = y;
-	for (int i = 1; i <nTail ; i++) {
+	for (int i = 1; i < nTail; i++) {
 		prev2X = tailX[i];
 		prev2Y = tailY[i];
 		tailX[i] = prevX;
@@ -79,61 +81,68 @@ void Logic() {
 		prevY = prev2Y;
 	}
 
-
 	switch (dir) {
 	case LEFT:
-		//if(prevState!=stateRIGHT){
-		//	prevState=state;
-			x=x-3;
-			state=stateLEFT;
-		//}
+
+		x = x - 3;
+		state = stateLEFT;
+
 		break;
 	case RIGHT:
-		//if(prevState!=stateLEFT) {
-		//	prevState=state;
-			x=x+3;
-			state = stateRIGHT;
-		//}
+
+		x = x + 3;
+		state = stateRIGHT;
 		break;
 	case UP:
-		//if(prevState!=stateDOWN){
-		//	prevState=state;
-			y=y-3;
-			state = stateUP;
-		//}
+
+		y = y - 3;
+		state = stateUP;
+
 		break;
 	case DOWN:
-		//if(prevState!=stateUP){
-		//	prevState=state;
-			y=y+3;
-			state = stateUP;
-		//}
+
+		y = y + 3;
+		state = stateUP;
+
 		break;
 	default:
 		break;
 	}
 
 	//zderzenie ze sciana
-	if (tailX[0] >= LCD_WIDTH-3 || x < 0 || tailY[0] >= LCD_HEIGHT-3 || y < 0) {
-		state=stateGameOver;
-		dir=STOP;
+	if (tailX[0] >= LCD_WIDTH - 3 || x < 0 || tailY[0] >= LCD_HEIGHT - 3
+			|| y < 0) {
+		state = stateGameOver;
+		dir = STOP;
 	}
 	//zderzenie ze soba
 
-	if(nTail>5){
+	if (nTail > 5) {
 		for (int i = 1; i < nTail; i++) {
-			if (tailY[i] == y && tailX[i] == x){
-					state=stateGameOver;
-					dir = STOP;
+			if (tailY[i] == y && tailX[i] == x) {
+				state = stateGameOver;
+				dir = STOP;
 			}
 		}
 	}
 
 	//owocek!!
-	if ((x <= fruitX+3 && x >= fruitX-3) && (y <= fruitY+1 && y >= fruitY-1)) {
+	if ((x <= fruitX + 3 && x >= fruitX - 3)
+			&& (y <= fruitY + 1 && y >= fruitY - 1)) {
 		score += 10;
-		fruitX = rand() % LCD_WIDTH;
-		fruitY = rand() % LCD_HEIGHT;
+		fruitX = rand() % LCD_WIDTH + 1;
+		fruitY = rand() % LCD_HEIGHT + 1;
 		nTail++;
 	}
+}
+
+void Restart() {
+	lcdClear();
+	dir = STOP;
+	x = LCD_WIDTH/3;
+	y = LCD_HEIGHT/4;
+	tailX[0] = x;
+	tailY[0] = y;
+	nTail = 0;
+	lcdCopy();
 }
