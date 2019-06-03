@@ -1,13 +1,19 @@
 # Viper
 ## Overview:
 	Old school snake game manipulated by accelerometer using STM32 F4. 
-	
-	
-	
+	master
 ## Description:
 	Simple gaming device build with Nokia 5110 LCD screen,
 	push buttons and microcontroller STM32 F4. 
 	All eletronics are packed into self-made case.
+
+## Pictures:
+
+	![alt text](https://github.com/PUT-PTM/2019_Viper/blob/master/pictures/viper1.jpg?raw=true)
+	![alt text](https://github.com/PUT-PTM/2019_Viper/blob/master/pictures/viper2.jpg?raw=true)
+	![alt text](https://github.com/PUT-PTM/2019_Viper/blob/master/pictures/viper3.jpg?raw=true)
+	![alt text](https://github.com/PUT-PTM/2019_Viper/blob/master/pictures/viper4.jpg?raw=true)
+	
 ## Tools:
 	IDE: STM32CubeMX - MX.5.2.1 release.
 	System Workbench for STM32 - version: Neon.3 Release (4.6.3).
