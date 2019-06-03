@@ -13,8 +13,8 @@ void setUP() {
 	y = LCD_HEIGHT/4;
 	tailX[0] = x;
 	tailY[0] = y;
-	fruitX = rand() % LCD_WIDTH + 1;
-	fruitY = rand() % LCD_HEIGHT + 1;
+	fruitX = (rand() % LCD_WIDTH + 3) - 3;
+	fruitY = (rand() % LCD_HEIGHT + 3) - 3;
 	score = 0;
 	nTail = 3;
 }
@@ -83,27 +83,20 @@ void Logic() {
 
 	switch (dir) {
 	case LEFT:
-
 		x = x - 3;
 		state = stateLEFT;
-
 		break;
 	case RIGHT:
-
 		x = x + 3;
 		state = stateRIGHT;
 		break;
 	case UP:
-
 		y = y - 3;
 		state = stateUP;
-
 		break;
 	case DOWN:
-
 		y = y + 3;
 		state = stateUP;
-
 		break;
 	default:
 		break;
@@ -130,8 +123,8 @@ void Logic() {
 	if ((x <= fruitX + 3 && x >= fruitX - 3)
 			&& (y <= fruitY + 1 && y >= fruitY - 1)) {
 		score += 10;
-		fruitX = rand() % LCD_WIDTH + 1;
-		fruitY = rand() % LCD_HEIGHT + 1;
+		fruitX = (rand() % LCD_WIDTH + 3) - 3;
+		fruitY = (rand() % LCD_HEIGHT + 3) - 3;
 		nTail++;
 	}
 }

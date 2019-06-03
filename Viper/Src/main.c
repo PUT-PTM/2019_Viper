@@ -26,7 +26,6 @@
 #include "logo.h"
 #include "ScreenLib.h"
 #include "Accelerometer.h"
-#include "gameEngine.h"
 #include "Defines.h"
 #include "viper.h"
 #include "gameEngineA.h"
@@ -72,62 +71,41 @@ static void MX_TIM4_Init(void);
 
 volatile int button = 0;
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 
-   	if(HAL_GPIO_ReadPin(UP_Button_GPIO_Port, UP_Button_Pin) == GPIO_PIN_SET)
-   	{
-   		button=0;
-   	}
-   	else if(HAL_GPIO_ReadPin(SELECT_Button_GPIO_Port, SELECT_Button_Pin) == GPIO_PIN_SET)
-   	{
-   		button=1;
-   	}
-   	else if(HAL_GPIO_ReadPin(DOWN_Button_GPIO_Port, DOWN_Button_Pin) == GPIO_PIN_SET)
-   	{
-   		button=2;
-   	}
+	if (HAL_GPIO_ReadPin(UP_Button_GPIO_Port, UP_Button_Pin) == GPIO_PIN_SET) {
+		button = 0;
+	} else if (HAL_GPIO_ReadPin(SELECT_Button_GPIO_Port, SELECT_Button_Pin) == GPIO_PIN_SET) {
+		button = 1;
+	} else if (HAL_GPIO_ReadPin(DOWN_Button_GPIO_Port, DOWN_Button_Pin) == GPIO_PIN_SET) {
+		button = 2;
+	}
 
-   	if(button==0&&menuState==0){
-   		printMenu(0);
-   	}
-   	if(button==0&&menuState==1){
-   		menuState=0;
-   		printMenu(0);
-   	}
-   	if(button==0&&menuState==2){
-   		menuState=1;
-   		printMenu(1);
-   	}
+	if (button == 0 && menuState == 0) {
+		printMenu(0);
+	}
+	if (button == 0 && menuState == 1) {
+		menuState = 0;
+		printMenu(0);
+	}
+	if (button == 2 && menuState == 1) {
+		printMenu(1);
+	}
+	if (button == 2 && menuState == 0) {
+		menuState = 1;
+		printMenu(1);
+	}
 
-   	if(button==2&&menuState==2){
-   		printMenu(2);
-   	}
-   	if(button==2&&menuState==1){
-   		menuState=2;
-   		printMenu(2);
-   	}
-   	if(button==2&&menuState==0){
-   		menuState=1;
-   		printMenu(1);
-   	}
-
-   	if(button==1&&menuState==0){
-   		Startup();
-   		button = 0;
-   		menuState = 3;
-   	}
-   	if(button==1&&menuState==1){
-   		printScoreMenu();
-   		button = 0;
-   		menuState = 4;
-   	}
-   	if(button==1&&menuState==2){
-   		lcdClear();
-   		lcdCopy();
-   		button = 0;
-   		menuState = 5;
-   	}
+	if (button == 1 && menuState == 0) {
+		button = 0;
+		menuState = 3;
+	}
+	if (button == 1 && menuState == 1) {
+		lcdClear();
+		lcdCopy();
+		button = 0;
+		menuState = 5;
+	}
 }
 
 
@@ -190,24 +168,24 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-	  if(menuState==3){
-		  Draw();
-		  Input();
-		  Logic();
-		  if(gameOVER()==1){
-			  printGameOver();
-			  menuState=4;
-			  for(int i=0;i<70000000;i++);
-			  Restart();
-		  }
-	  }
-	  if(menuState==4){
-		  setUP();
-		  menuState = 0;
-		  printMenu(0);
-	  }
+	while (1) {
+		if (menuState == 3) {
+			Draw();
+			Input();
+			Logic();
+			if (gameOVER() == 1) {
+				printGameOver();
+				menuState = 4;
+				for (int i = 0; i < 70000000; i++)
+					;
+				Restart();
+			}
+		}
+		if (menuState == 4) {
+			setUP();
+			menuState = 0;
+			printMenu(0);
+		}
 
     /* USER CODE END WHILE */
 

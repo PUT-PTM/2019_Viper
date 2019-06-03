@@ -3,22 +3,22 @@
 #include "font.h"
 
 
-static spiSend(uint8_t byte){
+static spiSend(uint8_t byte) {
 	HAL_SPI_Transmit(&hspi2, &byte, 1, HAL_MAX_DELAY);
 }
 
-void lcdCommand(uint8_t cmd){
-	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin|CE_Pin,0);
+void lcdCommand(uint8_t cmd) {
+	HAL_GPIO_WritePin(DC_GPIO_Port, DC_Pin | CE_Pin, 0);
 	spiSend(cmd);
-	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin|CE_Pin,1);
+	HAL_GPIO_WritePin(DC_GPIO_Port, DC_Pin | CE_Pin, 1);
 }
 
-void lcdReset(){
-	HAL_GPIO_WritePin(RST_GPIO_Port,RST_Pin,0);
-	HAL_GPIO_WritePin(RST_GPIO_Port,RST_Pin,1);
+void lcdReset() {
+	HAL_GPIO_WritePin(RST_GPIO_Port, RST_Pin, 0);
+	HAL_GPIO_WritePin(RST_GPIO_Port, RST_Pin, 1);
 }
 
-void lcdInitScreen(){
+void lcdInitScreen() {
 	lcdReset();
 	lcdCommand(0x21);
 	lcdCommand(0x14);
@@ -27,18 +27,17 @@ void lcdInitScreen(){
 	lcdCommand(0x0c);
 }
 
-void lcdClear(){
-	memset(lcd_buffer,0,LCD_BUFFER_SIZE);
+void lcdClear() {
+	memset(lcd_buffer, 0, LCD_BUFFER_SIZE);
 }
 
-void lcdDrawLogo(const uint8_t * data){
+void lcdDrawLogo(const uint8_t * data) {
 	lcdCommand(0x40 | 0x00); //Y 0
 	lcdCommand(0x80 | 0x00); //X 0
-	memcpy(lcd_buffer,data,LCD_BUFFER_SIZE);
+	memcpy(lcd_buffer, data, LCD_BUFFER_SIZE);
 }
 
-void lcdDrawLine(int x1, int y1, int x2, int y2)
-{
+void lcdDrawLine(int x1, int y1, int x2, int y2) {
 	int dx, dy, sx, sy;
 	if (x2 >= x1) {
 		dx = x2 - x1;
@@ -56,30 +55,32 @@ void lcdDrawLine(int x1, int y1, int x2, int y2)
 	}
 	int dx2 = dx << 1;
 	int dy2 = dy << 1;
-    int err = dx2 + dy2;
-    	while (1) {
-    		lcdDrawPixel(x1,y1);
-    		if (err >= dy) {
-    			if (x1 == x2) break;
-    			err += dy2;
-    			x1 += sx;
-    		}
-    		if (err <= dx) {
-    			if (y1 == y2) break;
-    			err += dx2;
-    			y1 += sy;
-    		}
-    	}
+	int err = dx2 + dy2;
+	while (1) {
+		lcdDrawPixel(x1, y1);
+		if (err >= dy) {
+			if (x1 == x2)
+				break;
+			err += dy2;
+			x1 += sx;
+		}
+		if (err <= dx) {
+			if (y1 == y2)
+				break;
+			err += dx2;
+			y1 += sy;
+		}
+	}
 }
 
 void lcdCopy() {
 	int i;
-	HAL_GPIO_WritePin(DC_GPIO_Port,DC_Pin,1);
-	HAL_GPIO_WritePin(CE_GPIO_Port,CE_Pin,0);
-	for(i = 0;i<LCD_BUFFER_SIZE;i++){
+	HAL_GPIO_WritePin(DC_GPIO_Port, DC_Pin, 1);
+	HAL_GPIO_WritePin(CE_GPIO_Port, CE_Pin, 0);
+	for (i = 0; i < LCD_BUFFER_SIZE; i++) {
 		spiSend(lcd_buffer[i]);
 	}
-	HAL_GPIO_WritePin(CE_GPIO_Port,CE_Pin,1);
+	HAL_GPIO_WritePin(CE_GPIO_Port, CE_Pin, 1);
 }
 
 void lcdDrawText(int row, int col, const char* text) {
@@ -95,18 +96,14 @@ void lcdDrawText(int row, int col, const char* text) {
 	}
 }
 
-inline void lcdDrawPixel(int x, int y) {
-	lcd_buffer[ x + (y >> 3) * LCD_WIDTH] |= 1 << (y & 7);
+void lcdDrawPixel(int x, int y) {
+	lcd_buffer[x + (y >> 3) * LCD_WIDTH] |= 1 << (y & 7);
 }
 
-void lcdDrawSquare(int x, int y, int h){
-	for(int i = 0;i<h;i++){
-		for(int j = 0;j<h;j++){
-			lcdDrawPixel(x+i,y+j);
+void lcdDrawSquare(int x, int y, int h) {
+	for (int i = 0; i < h; i++) {
+		for (int j = 0; j < h; j++) {
+			lcdDrawPixel(x + i, y + j);
 		}
 	}
-}
-
-void lcdDrawFruit(int x, int y){
-
 }

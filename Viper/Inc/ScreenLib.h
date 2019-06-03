@@ -5,18 +5,17 @@ SPI_HandleTypeDef hspi2;
 //functions
 
 static spiSend(uint8_t byte);
-extern void lcdCommand(uint8_t cmd);
-extern void lcdInitScreen();
+void lcdCommand(uint8_t cmd);
+void lcdInitScreen();
 
-extern void lcdReset();
+void lcdReset();
 
-extern void lcdClear();
-extern void lcdDrawLogo(const uint8_t * data);
-extern void lcdCopy();
-extern void lcdDrawText(int row, int col, const char* text);
-extern inline void lcdDrawPixel(int x, int y);
-extern void lcdDrawLine(int x1, int y1, int x2, int y2);
-extern void lcdDrawSquare(int x, int y,int h);
-void lcdDrawFruit(int x, int y);
+void lcdClear();
+void lcdDrawLogo(const uint8_t * data);
+void lcdCopy();
+void lcdDrawText(int row, int col, const char* text);
+void lcdDrawPixel(int x, int y);
+void lcdDrawLine(int x1, int y1, int x2, int y2);
+void lcdDrawSquare(int x, int y,int h);
 
 void lcd_copy();
